@@ -3,14 +3,12 @@ package com.example.labthread_ph27731;
 import android.os.Handler;
 import android.widget.TextView;
 
-import java.util.concurrent.ExecutorService;
 
 
 class PrimeSeries implements Runnable {
     private int n;
     private TextView tv;
 
-    private ExecutorService ex;
     private Handler handler;
 
     public PrimeSeries(Handler refresh, int n, TextView tv) {

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewAmicableResult;
 
 
-    private ExecutorService executorService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         int n = Integer.parseInt(String.valueOf(editTextNumber.getText()));
-                        executorService = Executors.newFixedThreadPool(3);
                         Runnable primeThread = new PrimeSeries(refresh, n, textViewPrimeResult);
                         Runnable perfectThread = new PerfectSeries(refresh, n, textViewPerfectResult);
-                        Runnable loveThread = new LoveSeries(refresh, n, textViewAmicableResult);
-                        executorService.execute(primeThread);
-                        executorService.execute(perfectThread);
-                        executorService.execute(loveThread);
+                        Runnable loveThread = new LoveSeries(refresh, n, textViewAmicableResult,v);
+                        primeThread.run();
+                        perfectThread.run();
+                        loveThread.run();
+
 
                     }
                 });
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // Dừng ExecutorService khi không cần thiết nữa
-        executorService.shutdown();
     }
 
 
