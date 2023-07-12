@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         int n = Integer.parseInt(String.valueOf(editTextNumber.getText()));
                         Runnable primeThread = new PrimeSeries(refresh, n, textViewPrimeResult);
                         Runnable perfectThread = new PerfectSeries(refresh, n, textViewPerfectResult);
-                        Runnable loveThread = new LoveSeries(refresh, n, textViewAmicableResult,v);
+                        Runnable loveThread = new LoveSeries(refresh, n, textViewAmicableResult);
                         primeThread.run();
                         perfectThread.run();
                         loveThread.run();
