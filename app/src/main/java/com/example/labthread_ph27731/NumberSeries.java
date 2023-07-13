@@ -1,6 +1,7 @@
 package com.example.labthread_ph27731;
 
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 
@@ -22,7 +23,11 @@ class PrimeSeries implements Runnable {
     public void run() {
         String str = "";
         // Tìm dãy số nguyên tố
-        for (int i = 2; i <= n; i++) {
+
+
+        for (long i = 2; i <= n; i++) {
+            Log.e("loai1", "run: "+i );
+
             if (isPrime(i)) {
                 str += " " + i;
             }
@@ -40,7 +45,7 @@ class PrimeSeries implements Runnable {
 
 
     // Kiểm tra số nguyên tố
-    private boolean isPrime(int num) {
+    private boolean isPrime(long num) {
         if (num < 2) {
             return false;
         }
@@ -66,9 +71,12 @@ class PerfectSeries implements Runnable {
 
     @Override
     public void run() {
+
         String str = "";
         // Tìm dãy số hoàn hảo
         for (int i = 2; i <= n; i++) {
+
+            Log.e("loai2", "run: "+i );
             if (isPerfect(i)) {
                 str += " " + i;
             }
@@ -88,6 +96,7 @@ class PerfectSeries implements Runnable {
     private boolean isPerfect(int num) {
         int sum = 1;
         for (int i = 2; i * i <= num; i++) {
+
             if (num % i == 0) {
                 sum += i;
                 if (i * i != num) {
@@ -116,6 +125,8 @@ class LoveSeries implements Runnable {
         String str = "";
         // Tìm cặp số tình yêu
         for (int i = 2; i <= n; i++) {
+            Log.e("loai3", "run: "+i );
+
             int sum = getSumOfDivisors(i);
             if (sum > i && sum <= n && getSumOfDivisors(sum) == i) {
                 str += " (" + i + ", " + sum + ") ";

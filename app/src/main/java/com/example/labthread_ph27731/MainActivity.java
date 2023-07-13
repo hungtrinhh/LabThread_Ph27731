@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.DeadObjectException;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewAmicableResult;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findID();
+
+
         Handler refresh = new Handler(Looper.getMainLooper());
         buttonGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,13 +38,26 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        if (editTextNumber.getText().toString().length() > 10) {
+
+                            Toast toast = new Toast(getApplicationContext());
+                            toast.setText("khong duoc nhạp nhieu");
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.show();
+                            return;
+                        }
+
+
                         int n = Integer.parseInt(String.valueOf(editTextNumber.getText()));
-                        Runnable primeThread = new PrimeSeries(refresh, n, textViewPrimeResult);
-                        Runnable perfectThread = new PerfectSeries(refresh, n, textViewPerfectResult);
-                        Runnable loveThread = new LoveSeries(refresh, n, textViewAmicableResult);
-                        primeThread.run();
-                        perfectThread.run();
-                        loveThread.run();
+                        Thread t1 = new Thread(new PrimeSeries(refresh, n, textViewPrimeResult));
+                        Thread t2 = new Thread(new PerfectSeries(refresh, n, textViewPerfectResult));
+                        Thread t3 = new Thread(new LoveSeries(refresh, n, textViewAmicableResult));
+
+
+                        t1.start();
+                        t2.start();
+                        t3.start();
 
 
                     }
@@ -68,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onDestroy() {
         super.onDestroy();
+
         // Dừng ExecutorService khi không cần thiết nữa
     }
 
